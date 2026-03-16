@@ -10,7 +10,7 @@ pipeline {
             steps {
                 git branch : 'main' ,
                     credentialsId:'github-creds',
-                    url:'https://github.com/vs-abhinav-dev/assignment_5'
+                    url:'git@github.com:vs-abhinav-dev/assignment_5.git'
             }
         }
 
