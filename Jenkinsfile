@@ -9,7 +9,7 @@ pipeline {
         stage('Checkout Code'){
             steps {
                 git branch : 'main' ,
-                    credentialsId:'github-creds',
+                    credentialsId:'github-ssh',
                     url:'git@github.com:vs-abhinav-dev/assignment_5.git'
             }
         }
