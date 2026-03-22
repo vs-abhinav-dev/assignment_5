@@ -15,6 +15,13 @@ const port = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
+app.get('/api/students-detail', (req, res) => {
+  res.json({
+    "name": "abhinav",
+    "roll number": "2023bcs181"
+  });
+});
+
 app.get('/api/tasks', async (req, res) => {
   try {
     const tasks = await prisma.task.findMany({
