@@ -5,7 +5,6 @@ WORKDIR /app
 
 COPY package*.json ./
 COPY prisma ./prisma/
-COPY prisma.config.ts ./
 
 RUN npm install
 RUN npx prisma generate
@@ -19,6 +18,7 @@ FROM node:20-alpine
 
 WORKDIR /app
 
+# Copy necessary files from builder
 COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/dist ./dist
@@ -26,4 +26,5 @@ COPY --from=builder /app/prisma ./prisma
 
 EXPOSE 3001
 
-CMD ["sh","-c","sleep 10 && DATABASE_URL=$DATABASE_URL npx prisma db push && node dist/index.js"]
+# Production command: runs migrations then starts the server
+CMD ["sh", "-c", "npx prisma migrate deploy && node dist/index.js"]
