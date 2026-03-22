@@ -26,4 +26,6 @@ COPY --from=builder /app/prisma ./prisma
 
 EXPOSE 3001
 
-CMD ["sh","-c","npx prisma migrate deploy && node dist/index.js"]
+ENV DATABASE_URL=postgresql://user:password@db:5432/taskdb?schema=public
+
+CMD ["sh","-c","sleep 10 && npx prisma db push --schema=prisma/schema.prisma && node dist/index.js"]
