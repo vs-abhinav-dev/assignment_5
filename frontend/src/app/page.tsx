@@ -16,7 +16,7 @@ export default function TaskManager() {
   const [student, setStudent] = useState<{ name: string; "roll number": string } | null>(null);
 
   const API_URL =
-    process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api";
+    process.env.NEXT_PUBLIC_API_URL || "http://34.14.208.253:3001/api";
 
   useEffect(() => {
     fetchTasks();

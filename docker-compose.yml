@@ -44,7 +44,7 @@ services:
       - "3000:3000"
 
     environment:
-      NEXT_PUBLIC_API_URL: http://backend:3001/api
+      NEXT_PUBLIC_API_URL: http://34.14.208.253:3001/api
 
     depends_on:
       - backend
