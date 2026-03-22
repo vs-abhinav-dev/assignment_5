@@ -21,31 +21,29 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
   backend:
-    image: mrshah21/2023bcs181_backend
-
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     restart: always
-
     ports:
       - "3001:3001"
-
     environment:
-      DATABASE_URL: postgresql://user:password@db:5432/taskdb
-
+      DATABASE_URL: postgresql://user:password@db:5432/taskdb?schema=public
     depends_on:
       db:
         condition: service_healthy
 
   frontend:
-    image: mrshah21/2023bcs181_frontend
-
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_API_URL=http://localhost:3001/api
     restart: always
-
     ports:
       - "3000:3000"
-
     environment:
-      NEXT_PUBLIC_API_URL: http://34.14.208.253:3001/api
-
+      NEXT_PUBLIC_API_URL: http://localhost:3001/api
     depends_on:
       - backend
 

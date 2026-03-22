@@ -16,7 +16,7 @@ export default function TaskManager() {
   const [student, setStudent] = useState<{ name: string; "roll number": string } | null>(null);
 
   const API_URL =
-    process.env.NEXT_PUBLIC_API_URL || "http://34.14.208.253:3001/api";
+    process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api";
 
   useEffect(() => {
     fetchTasks();
@@ -37,7 +37,12 @@ export default function TaskManager() {
     try {
       const response = await fetch(`${API_URL}/tasks`);
       const data = await response.json();
-      setTasks(data);
+      if (Array.isArray(data)) {
+        setTasks(data);
+      } else {
+        console.error("Fetched tasks data is not an array:", data);
+        setTasks([]);
+      }
     } catch (error) {
       console.error("Failed to fetch tasks:", error);
     } finally {
