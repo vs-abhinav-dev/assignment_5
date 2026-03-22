@@ -1,45 +1,54 @@
+version: '3.8'
+
 services:
+
   db:
     image: postgres:15-alpine
     restart: always
+
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
       POSTGRES_DB: taskdb
+
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U user -d taskdb"]
       interval: 5s
       timeout: 5s
       retries: 5
-    ports:
-      - "5432:5432"
+
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
   backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
+    image: mrshah21/2023bcs181_backend
+
+    restart: always
+
     ports:
       - "3001:3001"
+
     environment:
-      DATABASE_URL: postgresql://user:password@db:5432/taskdb?schema=public
+      DATABASE_URL: postgresql://user:password@db:5432/taskdb
+
     depends_on:
       db:
         condition: service_healthy
 
   frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-      args:
-        - NEXT_PUBLIC_API_URL=http://localhost:3001/api
+    image: mrshah21/2023bcs181_frontend
+
+    restart: always
+
     ports:
       - "3000:3000"
+
     environment:
-      NEXT_PUBLIC_API_URL: http://localhost:3001/api
+      NEXT_PUBLIC_API_URL: http://backend:3001/api
+
     depends_on:
       - backend
 
 volumes:
   postgres_data:
+
