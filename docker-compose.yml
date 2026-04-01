@@ -1,10 +1,10 @@
-version: '3.8'
-
 services:
 
   db:
     image: postgres:15-alpine
     restart: always
+
+    container_name: taskdb
 
     environment:
       POSTGRES_USER: user
@@ -21,6 +21,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
   backend:
+    container_name: abhinav-23bcs181-backend-container
     build:
       context: ./backend
       dockerfile: Dockerfile
@@ -29,11 +30,13 @@ services:
       - "3001:3001"
     environment:
       DATABASE_URL: postgresql://user:password@db:5432/taskdb?schema=public
+    image: abhinav-23bcs181-backend
     depends_on:
       db:
         condition: service_healthy
 
   frontend:
+    container_name: abhinav-23bcs181-frontend-container
     build:
       context: ./frontend
       dockerfile: Dockerfile
@@ -44,6 +47,7 @@ services:
       - "3000:3000"
     environment:
       NEXT_PUBLIC_API_URL: http://localhost:3001/api
+    image: abhinav-23bcs181-frontend
     depends_on:
       - backend
 
