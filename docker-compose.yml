@@ -30,13 +30,13 @@ services:
       - "3001:3001"
     environment:
       DATABASE_URL: postgresql://user:password@db:5432/taskdb?schema=public
-    image: abhinav-23bcs181-backend
+    image: abhinav-23bcs181-task-backend
     depends_on:
       db:
         condition: service_healthy
 
   frontend:
-    container_name: abhinav-23bcs181-frontend-container
+    container_name: abhinav-23bcs181-task-frontend-container
     build:
       context: ./frontend
       dockerfile: Dockerfile
@@ -47,7 +47,7 @@ services:
       - "3000:3000"
     environment:
       NEXT_PUBLIC_API_URL: http://localhost:3001/api
-    image: abhinav-23bcs181-frontend
+    image: abhinav-23bcs181-task-frontend
     depends_on:
       - backend
 
